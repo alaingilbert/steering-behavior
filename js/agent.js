@@ -22,14 +22,14 @@
 
 var Agent = function (pos) {
    var pos      = pos || {};
-   this.p       = $V([ pos.x || 0, pos.y || 0 ]);
-   this.f       = $V([ 1, 0 ]);
-   this.a       = 0;
-   this.v       = $V([ 0, 0 ]);
-   this.r       = 10;
-   this.s       = 0;
-   this.m       = 1;
-   this.max     = 100;
+   this.p       = $V([ pos.x || 0, pos.y || 0 ]); // Position
+   this.f       = $V([ 1, 0 ]);                   // Force
+   this.a       = 0;                              // Acceleration
+   this.v       = $V([ 0, 0 ]);                   // Velocity
+   this.r       = 10;                             // Radius
+   this.s       = 0;                              // Speed
+   this.m       = 1;                              // Masse
+   this.max     = 100;                            // Maximum speed
    this.color   = '#c0c0c0';
    this.contact = false;
 
