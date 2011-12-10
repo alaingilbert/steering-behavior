@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+   <title>Steering behavior</title>
+   <meta charset="utf-8" />
+   <script src="js/sylvester.js" type="text/javascript"></script>
+   <script src="js/agent.js" type="text/javascript"></script>
+   <script src="js/core.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="float: left">
+   <canvas id="canvas" width="800" height="600"></canvas>
+</div>
+<div style="float: left; margin-left: 20px;">
+   <input type="checkbox" id="ckbAuto">Maintenir (automatiquement) le framerate à : 60fps<br />
+   <br />
+   <input type="radio" id="opt1" name="test" value="1" checked="checked" />S'approcher du plus près.<br />
+   <input type="radio" id="opt2" name="test" value="2" />S'approcher de la masse.<br />
+
+   <h1>Instructions</h1>
+   <p>Cliquer sur le canvas pour ajouter des "agents".</p>
+   <p>Appuyer sur "Command", puis cliquer sur le canvas pour enlever des "agents".</p>
+</div>
+
+</body>
+</html>
