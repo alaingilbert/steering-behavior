@@ -23,17 +23,19 @@
 function $(id) { return document.getElementById(id); }
 
 var Game = {
-   canvas:    null,
-   ctx:       null,
-   interval:  null,
-   opt:       1,
-   lastFrame: new Date().getTime(),
-   fps:       60,
-   objs:      [],
+   canvas:     null,
+   ctx:        null,
+   interval:   null,
+   opt:        1,
+   lastFrame:  new Date().getTime(),
+   fps:        60,
+   objs:       [],
+   collisions: 0,
+   hud:        true,
 
-   States:    { simple: 0 },
-   state:     0,
-   swState:   function (state) {
+   States:     { simple: 0 },
+   state:      0,
+   swState:    function (state) {
       if (state in this.States) { return States[state]; }
       return 0;
    },
@@ -54,17 +56,22 @@ var Game = {
 
    cycle: function () {
       var self = this;
+      var start = new Date().getTime();
       this.update();
       this.paint();
 
       var c = this.ctx;
       var time = (new Date().getTime() - this.lastFrame);
-      c.save();
-      c.font = '20px sans-serif';
-      c.textBaseline = 'top';
-      c.fillText('FPS:'+Math.round(1000/time), 10, 10);
-      c.fillText('Objects:'+this.objs.length, 10, 30);
-      c.restore();
+      if (this.hud) {
+         c.save();
+         c.font = '20px sans-serif';
+         c.textBaseline = 'top';
+         c.fillText('FPS:'+Math.round(1000/time), 10, 10);
+         c.fillText('Millisecondes par trames:'+Math.round(new Date().getTime() - start), 10, 30);
+         c.fillText('Objets:'+this.objs.length, 10, 50);
+         c.fillText('Collisions:'+Math.round(this.collisions/2), 10, 70);
+         c.restore();
+      }
 
       if (this.spawn) {
          this.spawnObjs();
@@ -133,6 +140,30 @@ document.addEventListener('DOMContentLoaded', function () {
          Game.auto = false;
       }
    };
+
+   $('ckbHud').onclick = function (evt) {
+      if ($('ckbHud').checked) {
+         Game.hud = true;
+      } else {
+         Game.hud = false;
+      }
+   };
+
+   document.addEventListener('keydown', function (evt) {
+      switch (evt.keyCode) {
+         case 72:
+            if (evt.metaKey) {
+               evt.preventDefault();
+               $('ckbHud').checked = !$('ckbHud').checked;
+               if ($('ckbHud').checked) {
+                  Game.hud = true;
+               } else {
+                  Game.hud = false;
+               }
+            }
+            break;
+      }
+   }, false);
 
    $('opt1').onclick = function (evt) {
       Game.opt = 1;

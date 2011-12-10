@@ -21,16 +21,17 @@
  */
 
 var Agent = function (pos) {
-   var pos    = pos || {};
-   this.p     = $V([ pos.x || 0, pos.y || 0 ]);
-   this.f     = $V([ 1, 0 ]);
-   this.a     = 0;
-   this.v     = $V([ 0, 0 ]);
-   this.r     = 10;
-   this.s     = 0;
-   this.m     = 1;
-   this.max   = 100;
-   this.color = '#c0c0c0';
+   var pos      = pos || {};
+   this.p       = $V([ pos.x || 0, pos.y || 0 ]);
+   this.f       = $V([ 1, 0 ]);
+   this.a       = 0;
+   this.v       = $V([ 0, 0 ]);
+   this.r       = 10;
+   this.s       = 0;
+   this.m       = 1;
+   this.max     = 100;
+   this.color   = '#c0c0c0';
+   this.contact = false;
 
    this.update = function () {
       var deltaTime = (new Date().getTime() - Game.lastFrame) / 1000;
@@ -69,6 +70,10 @@ var Agent = function (pos) {
          if (!contact && this.p.distanceFrom(obj.p) < this.r * 2) {
             contact = true;
             this.color = '#fd6562';
+            if (!this.contact) {
+               Game.collisions++;
+            }
+            this.contact = true;
          }
 
          if (this.p.distanceFrom(obj.p) < this.r * 3) {
@@ -76,6 +81,7 @@ var Agent = function (pos) {
             hadToSubtract = true;
          }
       }
+      if (!contact) { this.contact = false; }
       if (!hadToSubtract) {
          var near = 999999999999;
          var no = null;
